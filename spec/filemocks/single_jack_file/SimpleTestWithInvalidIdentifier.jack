@@ -1,0 +1,3 @@
+class SimpleTestWithInvalidIdentifier {
+	field int 2x; 
+}

@@ -1,0 +1,16 @@
+// This file is part of the materials accompanying the book 
+
+/**
+ * The Square class implements a graphic square. A graphic square 
+ * has a location on the screen and a size. It also has methods 
+ * for drawing, erasing, moving on the screen, and changing its size.
+ */
+ 
+class SimpleTestWithVarDecMethondDecWithComments {
+	field int x = "long value", y;
+	// Constructs a new square with a given location and size.
+	method void dispose() { /* comment */
+        do Memory.deAlloc(x);
+        return;
+    }
+}	

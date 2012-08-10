@@ -1,0 +1,3 @@
+class SimpleTestWithVarDec {
+	field int x, y;
+}	

@@ -1,0 +1,8 @@
+class SimpleTestWithVarDecMethondDec {
+	field int x = 6, y;
+	
+	method void dispose() {
+        do Memory.deAlloc(x);
+        return;
+    }
+}	
