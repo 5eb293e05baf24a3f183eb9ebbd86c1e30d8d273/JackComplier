@@ -24,7 +24,7 @@ class JackCompiler
       begin
         tokens = @tokenizer.run filename
       rescue SyntaxError => e
-        puts e.message + " in file #{filename}"
+        puts "In file '#{filename}', " + e.message
       end
       compiled_file.print CompileEngine.new(tokens).run()
       compiled_file.close

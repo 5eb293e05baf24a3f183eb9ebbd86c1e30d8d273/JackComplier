@@ -17,7 +17,7 @@ class CompileEngine
     
     def expect_token_value(value, token)
       unless token[1] == value
-        raise "expected '#{value}' but got '#{token[1]}'"
+        raise SyntaxError, "at line #{token[2]}: expected '#{value}' but got '#{token[1]}'"
       end
       "<#{token[0]}>#{token[1]}</#{token[0]}>"
     end

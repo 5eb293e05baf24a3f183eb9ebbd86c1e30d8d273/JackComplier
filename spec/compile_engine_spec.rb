@@ -12,7 +12,7 @@ describe CompileEngine do
     subject { @compile_engine.send :complie_class }
     
     context "when the tokens are from SimpleTest.jack" do
-      let(:tokens) { [["keyword", "class"], ['identifier', "SimpleTest"],["symbol", "{"], ["symbol", "}"]] }
+      let(:tokens) { [["keyword", "class", 1], ['identifier', "SimpleTest", 1],["symbol", "{", 1], ["symbol", "}", 3]] }
     
       it "should produce correct xmls" do
         pending
@@ -27,19 +27,19 @@ describe CompileEngine do
     context "when the value is 'class'" do
       let(:value) { 'class' }
       
-      context "when the tokens is ['keyword', 'class']" do
-        let(:tokens) { [['keyword', 'class']] }
+      context "when the tokens is ['keyword', 'class', 1]" do
+        let(:tokens) { [['keyword', 'class', 1]] }
         
         it "should produce correct xmls" do
           subject.should eq "<keyword>class</keyword>"
         end
       end
       
-      context "when the token is ['identifier', 'class2']" do
-        let(:tokens) { [['identifier', 'class2']] }
+      context "when the token is ['identifier', 'class2', 2]" do
+        let(:tokens) { [['identifier', 'class2', 2]] }
         
         it "should raise an error" do
-          expect {subject}.to raise_error(RuntimeError, "expected '#{value}' but got '#{tokens[0][1]}'")
+          expect {subject}.to raise_error(SyntaxError, "at line 2: expected 'class' but got 'class2'")
         end
       end
     end

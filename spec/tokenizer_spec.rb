@@ -15,7 +15,7 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTest.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class"], ['identifier', "SimpleTest"],["symbol", "{"], ["symbol", "}"]]
+        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTest", 1],["symbol", "{", 1], ["symbol", "}", 3]]
       end
     end
     
@@ -23,7 +23,7 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDec.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class"], ['identifier', "SimpleTestWithVarDec"], ["symbol", "{"], ["keyword", "field"], ["keyword", "int"], ['identifier', "x"], ["symbol", ","], ['identifier', "y"], ["symbol", ";"], ["symbol", "}"]]
+        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTestWithVarDec", 1], ["symbol", "{", 1], ["keyword", "field", 2], ["keyword", "int", 2], ['identifier', "x", 2], ["symbol", ",", 2], ['identifier', "y", 2], ["symbol", ";", 2], ["symbol", "}", 3]]
       end
     end
     
@@ -31,9 +31,9 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDecMethondDec.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class"], ['identifier', "SimpleTestWithVarDecMethondDec"], ["symbol", "{"], ["keyword", "field"], ["keyword", "int"], ['identifier', "x"], ["symbol", "="], ["int_const", "6"], ["symbol", ","], ['identifier', "y"], ["symbol", ";"], ["keyword", "method"], 
-          ["keyword", "void"], ["identifier", "dispose"], ["symbol", "("], ["symbol", ")"], ["symbol", "{"], ["keyword", "do"], ["identifier", "Memory"], 
-          ["symbol", "."], ["identifier", "deAlloc"], ["symbol", "("], ["identifier", "x"], ["symbol", ")"], ["symbol", ";"], ["keyword", "return"], ["symbol", ";"], ["symbol", "}"], ["symbol", "}"]]
+        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTestWithVarDecMethondDec", 1], ["symbol", "{", 1], ["keyword", "field", 2], ["keyword", "int", 2], ['identifier', "x", 2], ["symbol", "=", 2], ["int_const", "6", 2], ["symbol", ",", 2], ['identifier', "y", 2], ["symbol", ";", 2], ["keyword", "method", 4], 
+          ["keyword", "void", 4], ["identifier", "dispose", 4], ["symbol", "(", 4], ["symbol", ")", 4], ["symbol", "{", 4], ["keyword", "do", 5], ["identifier", "Memory", 5], 
+          ["symbol", ".", 5], ["identifier", "deAlloc", 5], ["symbol", "(", 5], ["identifier", "x", 5], ["symbol", ")", 5], ["symbol", ";", 5], ["keyword", "return", 6], ["symbol", ";", 6], ["symbol", "}", 7], ["symbol", "}", 8]]
       end
     end
     
@@ -41,9 +41,9 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDecMethondDecWithComments.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class"], ['identifier', "SimpleTestWithVarDecMethondDecWithComments"], ["symbol", "{"], ["keyword", "field"], ["keyword", "int"], ['identifier', "x"], ["symbol", "="], ["str_const", '"long value"'], ["symbol", ","], ['identifier', "y"], ["symbol", ";"], ["keyword", "method"], 
-          ["keyword", "void"], ["identifier", "dispose"], ["symbol", "("], ["symbol", ")"], ["symbol", "{"], ["keyword", "do"], ["identifier", "Memory"], 
-          ["symbol", "."], ["identifier", "deAlloc"], ["symbol", "("], ["identifier", "x"], ["symbol", ")"], ["symbol", ";"], ["keyword", "return"], ["symbol", ";"], ["symbol", "}"], ["symbol", "}"]]
+        subject.should eq [["keyword", "class", 9], ['identifier', "SimpleTestWithVarDecMethondDecWithComments", 9], ["symbol", "{", 9], ["keyword", "field", 10], ["keyword", "int", 10], ['identifier', "x", 10], ["symbol", "=", 10], ["str_const", '"long value"', 10], ["symbol", ",", 10], ['identifier', "y", 10], ["symbol", ";", 10], ["keyword", "method", 12], 
+          ["keyword", "void", 12], ["identifier", "dispose", 12], ["symbol", "(", 12], ["symbol", ")", 12], ["symbol", "{", 12], ["keyword", "do", 13], ["identifier", "Memory", 13], 
+          ["symbol", ".", 13], ["identifier", "deAlloc", 13], ["symbol", "(", 13], ["identifier", "x", 13], ["symbol", ")", 13], ["symbol", ";", 13], ["keyword", "return", 14], ["symbol", ";", 14], ["symbol", "}", 15], ["symbol", "}", 16]]
       end
     end
     
@@ -59,7 +59,7 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithInvalidIdentifier.jack" }
       
       it "should raise an error" do
-        expect {subject}.to raise_error(SyntaxError, "invalid string '2x' at line 2")
+        expect {subject}.to raise_error(SyntaxError, "at line 2: invalid string '2x'")
       end
     end
     
