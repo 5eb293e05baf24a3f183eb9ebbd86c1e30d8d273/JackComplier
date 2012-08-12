@@ -10,31 +10,34 @@ describe JackCompiler do
   before(:each) do
     @jack_compiler = JackCompiler.new path_input
   end
-  
-  describe "input_dir_name" do
-    subject { @jack_compiler.input_dir_name }
+
+  describe "globname" do
+    subject { @jack_compiler.globname }
     
     context "When the path input is a directory" do
       let(:path_input) { MULTI_FILES_DIR }
       
-      it "should equal to the input" do
-        subject.should eq path_input
+      it "should equal to the 'input/*.jack'" do
+        subject.should eq "#{path_input}/*.jack"
       end
-    end 
-    
+    end
+
     context "When the path input is a filename" do
       let(:path_input) { SINGLE_FILE_PATH }
       
-      it "should equal to the dir of the file" do
-        subject.should eq File.dirname path_input
+      it "should equal to the file name" do
+        subject.should eq path_input
       end
-    end  
+    end    
   end
   
   describe "run" do
     subject { @jack_compiler.run }
     
     context "when there're 3 .jack files in the input dir" do
+      before do
+        CompileEngine.any_instance.stub(:compile_class).and_return("<class>this proves I can write XML</class>")
+      end
       let(:path_input) { MULTI_FILES_DIR } 
       
       it "should produce three .xml files in the input dir" do
@@ -51,7 +54,6 @@ describe JackCompiler do
       end
       
       it "should write something on those .xml files" do
-        CompileEngine.any_instance.stub(:run).and_return("<class>this proves I can write XML</class>")
         subject
         Dir.glob("#{MULTI_FILES_DIR}/*.xml") do |filename|
           xml_file= File.open(filename)

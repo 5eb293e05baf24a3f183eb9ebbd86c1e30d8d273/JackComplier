@@ -15,7 +15,7 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTest.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTest", 1],["symbol", "{", 1], ["symbol", "}", 3]]
+        subject.should eq [{:type => "keyword", :value => "class", :at_line => 1}, {:type => 'identifier', :value => "SimpleTest", :at_line => 1}, {:type => "symbol", :value => "{", :at_line =>1}, {:type => "symbol", :value => "}", :at_line => 3}]
       end
     end
     
@@ -23,7 +23,7 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDec.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTestWithVarDec", 1], ["symbol", "{", 1], ["keyword", "field", 2], ["keyword", "int", 2], ['identifier', "x", 2], ["symbol", ",", 2], ['identifier', "y", 2], ["symbol", ";", 2], ["symbol", "}", 3]]
+        subject.should eq [{:type => "keyword", :value => "class", :at_line => 1}, {:type => 'identifier', :value => "SimpleTestWithVarDec", :at_line => 1}, {:type => "symbol", :value => "{", :at_line => 1}, {:type => "keyword", :value => "field", :at_line => 2}, {:type => "keyword", :value => "int", :at_line => 2}, {:type => 'identifier', :value => "x", :at_line => 2}, {:type => "symbol", :value => ",", :at_line => 2}, {:type => 'identifier', :value => "y", :at_line => 2}, {:type => "symbol", :value => ";", :at_line => 2}, {:type => "symbol", :value => "}", :at_line => 3}]
       end
     end
     
@@ -31,9 +31,9 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDecMethondDec.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class", 1], ['identifier', "SimpleTestWithVarDecMethondDec", 1], ["symbol", "{", 1], ["keyword", "field", 2], ["keyword", "int", 2], ['identifier', "x", 2], ["symbol", "=", 2], ["int_const", "6", 2], ["symbol", ",", 2], ['identifier', "y", 2], ["symbol", ";", 2], ["keyword", "method", 4], 
-          ["keyword", "void", 4], ["identifier", "dispose", 4], ["symbol", "(", 4], ["symbol", ")", 4], ["symbol", "{", 4], ["keyword", "do", 5], ["identifier", "Memory", 5], 
-          ["symbol", ".", 5], ["identifier", "deAlloc", 5], ["symbol", "(", 5], ["identifier", "x", 5], ["symbol", ")", 5], ["symbol", ";", 5], ["keyword", "return", 6], ["symbol", ";", 6], ["symbol", "}", 7], ["symbol", "}", 8]]
+        subject.should eq [{:type => "keyword", :value => "class", :at_line => 1}, {:type => 'identifier', :value => "SimpleTestWithVarDecMethondDec", :at_line => 1}, {:type => "symbol", :value => "{", :at_line => 1}, {:type => "keyword", :value => "field", :at_line => 2}, {:type => "keyword", :value => "int", :at_line => 2}, {:type => 'identifier', :value => "x", :at_line => 2}, {:type => "symbol", :value => "=", :at_line => 2}, {:type => "int_const", :value => "6", :at_line => 2}, {:type => "symbol", :value => ",", :at_line => 2}, {:type => 'identifier', :value => "y", :at_line => 2}, {:type => "symbol", :value => ";", :at_line => 2}, {:type => "keyword", :value => "method", :at_line => 4},
+          {:type => "keyword", :value => "void", :at_line => 4}, {:type => "identifier", :value => "dispose", :at_line => 4}, {:type => "symbol", :value => "(", :at_line => 4}, {:type => "symbol", :value => ")", :at_line => 4}, {:type => "symbol", :value => "{", :at_line => 4}, {:type => "keyword", :value => "do", :at_line => 5}, {:type => "identifier", :value => "Memory", :at_line => 5}, 
+          {:type => "symbol", :value => ".", :at_line => 5}, {:type => "identifier", :value => "deAlloc", :at_line => 5}, {:type => "symbol", :value => "(", :at_line => 5}, {:type => "identifier", :value => "x", :at_line => 5}, {:type => "symbol", :value => ")", :at_line => 5}, {:type => "symbol", :value => ";", :at_line => 5}, {:type => "keyword", :value => "return", :at_line => 6}, {:type => "symbol", :value => ";", :at_line => 6}, {:type => "symbol", :value => "}", :at_line => 7}, {:type => "symbol", :value => "}", :at_line => 8}]
       end
     end
     
@@ -41,9 +41,9 @@ describe Tokenizer do
       let(:input_filename) { "#{Dir.getwd}/spec/filemocks/single_jack_file/SimpleTestWithVarDecMethondDecWithComments.jack" }
       
       it "should produce correct tokens" do
-        subject.should eq [["keyword", "class", 9], ['identifier', "SimpleTestWithVarDecMethondDecWithComments", 9], ["symbol", "{", 9], ["keyword", "field", 10], ["keyword", "int", 10], ['identifier', "x", 10], ["symbol", "=", 10], ["str_const", '"long value"', 10], ["symbol", ",", 10], ['identifier', "y", 10], ["symbol", ";", 10], ["keyword", "method", 12], 
-          ["keyword", "void", 12], ["identifier", "dispose", 12], ["symbol", "(", 12], ["symbol", ")", 12], ["symbol", "{", 12], ["keyword", "do", 13], ["identifier", "Memory", 13], 
-          ["symbol", ".", 13], ["identifier", "deAlloc", 13], ["symbol", "(", 13], ["identifier", "x", 13], ["symbol", ")", 13], ["symbol", ";", 13], ["keyword", "return", 14], ["symbol", ";", 14], ["symbol", "}", 15], ["symbol", "}", 16]]
+        subject.should eq [{:type => "keyword", :value => "class", :at_line => 9}, {:type => 'identifier', :value => "SimpleTestWithVarDecMethondDecWithComments", :at_line => 9}, {:type => "symbol", :value => "{", :at_line => 9}, {:type => "keyword", :value => "field", :at_line => 10}, {:type => "keyword", :value => "int", :at_line => 10}, {:type => 'identifier', :value => "x", :at_line => 10}, {:type => "symbol", :value => "=", :at_line => 10}, {:type => "str_const", :value => '"long value"', :at_line => 10}, {:type => "symbol", :value => ",", :at_line => 10}, {:type => 'identifier', :value => "y", :at_line => 10}, {:type => "symbol", :value => ";", :at_line => 10}, {:type => "keyword", :value => "method", :at_line => 12},
+          {:type => "keyword", :value => "void", :at_line => 12}, {:type => "identifier", :value => "dispose", :at_line => 12}, {:type => "symbol", :value => "(", :at_line => 12}, {:type => "symbol", :value => ")", :at_line => 12}, {:type => "symbol", :value => "{", :at_line => 12}, {:type => "keyword", :value => "do", :at_line => 13}, {:type => "identifier", :value => "Memory", :at_line => 13}, 
+          {:type => "symbol", :value => ".", :at_line => 13}, {:type => "identifier", :value => "deAlloc", :at_line => 13}, {:type => "symbol", :value => "(", :at_line => 13}, {:type => "identifier", :value => "x", :at_line => 13}, {:type => "symbol", :value => ")", :at_line => 13}, {:type => "symbol", :value => ";", :at_line => 13}, {:type => "keyword", :value => "return", :at_line => 14}, {:type => "symbol", :value => ";", :at_line => 14}, {:type => "symbol", :value => "}", :at_line => 15}, {:type => "symbol", :value => "}", :at_line => 16}]
       end
     end
     
