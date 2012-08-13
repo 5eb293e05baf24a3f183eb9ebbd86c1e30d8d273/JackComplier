@@ -268,9 +268,9 @@ class CompileEngine
     
     def expect_optional_brackets
       if @tokens.first[:value] == "["
-        expect_token_value("[", @tokens.shift) + 
+        expect_token_value('\[', @tokens.shift) + 
         compile_expression +
-        expect_token_value("]", @tokens.shift)
+        expect_token_value('\]', @tokens.shift)
       else
         ''
       end
@@ -279,12 +279,21 @@ class CompileEngine
     def compile_expression
       "<expression>\n" +
         compile_term + 
+        compile_optional_term + 
       "</expression>\n"
+    end
+    
+    def compile_optional_term
+      code =''
+      while ['+', '-', '*', '/', '&', '|', '<', '>', "="].include? @tokens.first[:value]
+        code = code + expect_op(@tokens.shift) + compile_term
+      end
+      code 
     end
     
     def compile_term
       "<term>\n" +
-        expect_varName(@tokens.shift) +
+         expect_term +
       "</term>\n"
     end
     
@@ -305,6 +314,46 @@ class CompileEngine
         code = code + expect_token_value(",", @tokens.shift) + compile_expression
       end
       code      
+    end
+    
+    def expect_term
+      if @tokens.first[:type] == "int_const"
+        expect_integerConstant @tokens.shift
+      elsif @tokens.first[:type] == "str_const"
+        expect_stringConstant @tokens.shift
+      elsif ['true', 'false', 'null', 'this'].include? @tokens.first[:value]
+        expect_keywordConstant @tokens.shift
+      elsif @tokens.first[:value] == '('
+        expect_token_value('\(', @tokens.shift) + compile_expression + expect_token_value('\)', @tokens.shift)
+      elsif ['-', '~'].include? @tokens.first[:value]
+        expect_unaryOp(@tokens.shift) + compile_term
+      elsif ['(', '.'].include? @tokens[1][:value]
+        expect_subroutineCall
+      elsif @tokens[1][:value] == '['
+        expect_varName(@tokens.shift) + expect_token_value('\[', @tokens.shift) + compile_expression + expect_token_value('\]', @tokens.shift)
+      else
+        expect_varName(@tokens.shift)
+      end
+    end
+    
+    def expect_integerConstant token
+      expect_token_type "int_const", token 
+    end
+    
+    def expect_stringConstant token
+      expect_token_type "str_const", token 
+    end
+    
+    def expect_keywordConstant token
+      expect_token_value('true|false|null|this', token)
+    end
+    
+    def expect_op token
+      expect_token_value('\+|-|\*|/|&|\||<|>|=', token)
+    end
+    
+    def expect_unaryOp token
+      expect_token_value('-|~', token)
     end
     
 end

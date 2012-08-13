@@ -15,7 +15,6 @@ describe CompileEngine do
       let(:tokens) { [{:type => "keyword", :value => "class", :at_line => 1}, {:type => 'identifier', :value => "SimpleTest", :at_line => 1}, {:type => "symbol", :value => "{", :at_line =>1}, {:type => "symbol", :value => "}", :at_line => 3}] }
     
       it "should produce correct xmls" do
-        #pending
         subject.should eq "<class>\n<keyword>class</keyword>\n<identifier>SimpleTest</identifier>\n<symbol>{</symbol>\n<symbol>}</symbol>\n</class>"
       end
     end
@@ -188,6 +187,18 @@ describe CompileEngine do
        it "should produce correct xml" do
          subject.should eq "<doStatement>\n<keyword>do</keyword>\n<identifier>x</identifier>\n<symbol>(</symbol>\n<expressionList>\n</expressionList>\n<symbol>)</symbol>\n<symbol>;</symbol>\n</doStatement>\n"
        end
+    end
+  end
+  
+  describe "compile_expression" do
+    subject { @compile_engine.send :compile_expression }
+    
+    context "when the statement is 'x + y'" do
+      let(:tokens) { [{:type => 'identifier', :value => 'x', :at_line => 10}, {:type => 'symbol', :value => '+', :at_line => 10}, {:type => 'identifier', :value => 'y', :at_line => 10}, {:type => 'symbol', :value => ',', :at_line => 10}] }
+      
+      it "should produce correct xmls" do
+        subject.should eq "<expression>\n<term>\n<identifier>x</identifier>\n</term>\n<symbol>+</symbol>\n<term>\n<identifier>y</identifier>\n</term>\n</expression>\n"
+      end
     end
   end
 end
