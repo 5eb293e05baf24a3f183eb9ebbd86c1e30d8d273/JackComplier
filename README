@@ -1,3 +1,1 @@
-== jack_compiler
-
-You should document your project here.
+This program scans a Jack(a custom simplified version of Java) source code and then creates an xml file where the element hierarchy reflects the grammer of the source code language. Note this is not a code generator but it does lay the foundation for code generation. The code generation logic can be easily put into this framework.
